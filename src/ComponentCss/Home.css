@@ -1,0 +1,90 @@
+h2 sub {
+  margin-left: 0.2em;
+  font-size: 0.6em;
+  font-weight: 700;
+}
+
+.homeMenu {
+  width: 100%;
+}
+
+.homeMenu ul {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  margin: 0.2em 0;
+}
+
+.homeMenu ul li {
+  list-style: none;
+  padding: 0.4em;
+  width: 10em;
+  cursor: pointer;
+  border-radius: 0.1em;
+}
+.homeMenu ul li:hover {
+  background-color: var(--homeListHover);
+}
+
+.homeMenu ul li .after {
+  position: absolute;
+  width: 10em;
+  height: 0.3em;
+  background-color: var(--panelColor);
+  transform: translate(-0.4em, 2.3em);
+}
+
+.homeMenu ul li .homeListContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.homeMenu ul li h4 {
+  font-weight: 500;
+  margin-right: 0.4em;
+}
+
+.homeMenu ul li .no_of_msgs {
+  background-color: var(--panelColor);
+  color: var(--panelLIColor);
+  border-radius: 50%;
+  width: 2em;
+  height: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.homeTable {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.homeTable th {
+  background-color: var(--panelColor);
+  color: var(--panelLIColor);
+}
+
+.homeTable td,
+.homeTable th {
+  border: 1px solid var(--hrColor);
+  text-align: center;
+  padding: 8px;
+}
+
+.homeTable tr:nth-child(even) {
+  background-color: var(--tableBg);
+  color: var(--panelLIColor);
+}
+
+.dropdownNameSelection {
+  user-select: none;
+  padding: 0.4em 0.8em;
+  cursor: pointer;
+  font-weight: 700;
+}
+.dropdownNameSelection:hover {
+  background-color: rgb(221, 221, 221);
+}

@@ -1,38 +1,17 @@
-.App {
-  text-align: center;
+:root {
+  --panelColor: rgb(0, 119, 255);
+  --tableBg: rgba(0, 119, 255, 0.6);
+  /* --panelColor: rgb(255, 0, 0);
+  --tableBg: rgba(255, 0, 0, 0.5); */
+  --panelLIColor: white;
+  --fontColor: black;
+  --hrColor: rgb(60, 60, 60);
+  --homeListHover: rgb(234, 234, 234);
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.App .CompanyLogo {
+  position: absolute;
+  opacity: 0.16;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-40%, -50%);
 }
