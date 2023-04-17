@@ -8,14 +8,16 @@ import SchoolIcon from "@mui/icons-material/School";
 
 const PanelItems = (props) => {
   return (
-    <li className={`hoverItems ${props.logo == "HomeIcon" ? "aciveItem" : ""}`}>
-      {props.logo == "HomeIcon" ? (
+    <li
+      className={`hoverItems ${props.logo === "HomeIcon" ? "aciveItem" : ""}`}
+    >
+      {props.logo === "HomeIcon" ? (
         <HomeIcon className="itemLogo" />
-      ) : props.logo == "MessageIcon" ? (
+      ) : props.logo === "MessageIcon" ? (
         <MessageIcon className="itemLogo" />
-      ) : props.logo == "SettingsIcon" ? (
+      ) : props.logo === "SettingsIcon" ? (
         <SettingsIcon className="itemLogo" />
-      ) : props.logo == "LogoutIcon" ? (
+      ) : props.logo === "LogoutIcon" ? (
         <LogoutIcon className="itemLogo" />
       ) : (
         ""
@@ -35,14 +37,10 @@ export default function LeftPanel() {
       </div>
       <ul>
         {[
-          { logo: "HomeIcon", name: "Add User" },
+          { logo: "HomeIcon", name: "Home" },
           { logo: "MessageIcon", name: "Dr. Verification" },
           { logo: "SettingsIcon", name: "Block Doctor" },
-          { logo: "LogoutIcon", name: "Patient Query" },
-          { logo: "LogoutIcon", name: "Doctor's Query" },
-          { logo: "LogoutIcon", name: "Doctor's Profile" },
-          { logo: "LogoutIcon", name: "Patients Feedback" },
-          { logo: "LogoutIcon", name: "Dr's Feedback" },
+          { logo: "LogoutIcon", name: "Logout" },
         ].map((item) => {
           return (
             <PanelItems key={item.logo} logo={item.logo} name={item.name} />

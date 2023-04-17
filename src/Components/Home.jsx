@@ -17,7 +17,7 @@ const HomeMenuListItems = (props) => {
   return (
     <li>
       <div
-        className={`line ${props.name == "Complaints" ? "after" : ""}`}
+        className={`line ${props.name === "Complaints" ? "after" : ""}`}
       ></div>
       <div className="homeListContent">
         <h4>{props.name}</h4>
@@ -93,11 +93,11 @@ export default function Home(props) {
   var totalRejectedTableRows = 0;
 
   for (let i = 0; i < data.length; i++) {
-    if (data[i].type.toLowerCase() == "pending") {
+    if (data[i].type.toLowerCase() === "pending") {
       totalPendingTableRows++;
-    } else if (data[i].type.toLowerCase() == "inprocess") {
+    } else if (data[i].type.toLowerCase() === "inprocess") {
       totalInProcessTableRows++;
-    } else if (data[i].type.toLowerCase() == "solved") {
+    } else if (data[i].type.toLowerCase() === "solved") {
       totalSolvedTableRows++;
     } else {
       totalRejectedTableRows++;
@@ -148,7 +148,7 @@ export default function Home(props) {
           </tr>
         </thead>
         <tbody>
-          {props.toggleHomeTableHeaders == "0"
+          {props.toggleHomeTableHeaders === "0"
             ? data.map((item, key) => {
                 return (
                   <tr key={key}>
@@ -167,10 +167,10 @@ export default function Home(props) {
                   </tr>
                 );
               })
-            : props.toggleHomeTableHeaders != "0"
+            : props.toggleHomeTableHeaders !== "0"
             ? data.map((item, key) => {
                 if (
-                  item.type.toLowerCase() ==
+                  item.type.toLowerCase() ===
                   mapTableItemType[
                     parseInt(props.toggleHomeTableHeaders)
                   ].toLowerCase()

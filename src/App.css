@@ -8,7 +8,8 @@
   --hrColor: rgb(60, 60, 60);
   --homeListHover: rgb(234, 234, 234);
 }
-.App .CompanyLogo {
+
+.CompanyLogo {
   position: absolute;
   opacity: 0.16;
   top: 50vh;
