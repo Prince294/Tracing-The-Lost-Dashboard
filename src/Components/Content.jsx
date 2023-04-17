@@ -10,8 +10,12 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 import ABESIT from "../Images/abesit.png";
+import Login from "./Login";
+import { useNavigate } from "react-router-dom";
 
 export default function Content() {
+  const navigate = useNavigate();
+
   const [toggleMenuBtn, setToggleMenuBtn] = useState(1);
   const [toggleHomeTableHeaders, setToggleHomeTableHeaders] = useState(0);
   const [hoverActivePanelTabs, setHoverActivePanelTabs] = useState(0);
@@ -23,7 +27,7 @@ export default function Content() {
     var content = document.querySelector(".content");
 
     hamBurger.addEventListener("click", () => {
-      if (toggleMenuBtn == 1) {
+      if (toggleMenuBtn === 1) {
         leftPanel.style.width = "5.7vw";
         content.style.width = "calc(100vw - 5.7vw)";
         content.style.left = "5.7vw";
@@ -37,20 +41,26 @@ export default function Content() {
       }
     });
 
-    //Adding a class on hover listItems
+    //Adding a class on click listItems
     var listItems = document.querySelectorAll(".hoverItems");
     function addingClass() {
-      listItems.forEach((item) => {
-        item.classList.remove("aciveItem");
-      });
-      this.classList.add("aciveItem");
-      setHoverActivePanelTabs(
-        Array.from(this.parentNode.children).indexOf(this)
-      );
+      if (Array.from(this.parentNode.children).indexOf(this) === 3) {
+        localStorage.removeItem("session");
+        setHoverActivePanelTabs(0);
+        return navigate("/");
+      } else {
+        listItems.forEach((item) => {
+          item.classList.remove("aciveItem");
+        });
+        this.classList.add("aciveItem");
+        setHoverActivePanelTabs(
+          Array.from(this.parentNode.children).indexOf(this)
+        );
+      }
     }
 
     listItems.forEach((item) => {
-      item.addEventListener("mouseover", addingClass);
+      item.addEventListener("click", addingClass);
     });
 
     //Home List Hover Underline
@@ -68,7 +78,7 @@ export default function Content() {
     }
 
     homeListItems.forEach((item) => {
-      item.addEventListener("mouseover", mouseOverHomeListItems);
+      item.addEventListener("click", mouseOverHomeListItems);
     });
 
     //Dropdown Teachers Name
@@ -77,7 +87,7 @@ export default function Content() {
     for (let dropUl of dropDownUl) {
       dropUl.addEventListener("click", () => {
         let DropDownDiv = dropUl.querySelector("div");
-        if (DropDownDiv.style.display == "none") {
+        if (DropDownDiv.style.display === "none") {
           DropDownDiv.style.display = "block";
         } else {
           DropDownDiv.style.display = "none";
@@ -89,7 +99,7 @@ export default function Content() {
   return (
     <div className="content">
       <nav className="contentNav">
-        {toggleMenuBtn == 1 ? (
+        {toggleMenuBtn === 1 ? (
           <IconButton className="MenuBtn">
             <MenuIcon className="MenuIcon" />
           </IconButton>
@@ -121,11 +131,11 @@ export default function Content() {
         </Paper>
       </nav>
       <hr className="partitionHr" />
-      {hoverActivePanelTabs == "0" || hoverActivePanelTabs == "3" ? (
+      {hoverActivePanelTabs === 0 ? (
         <Home toggleHomeTableHeaders={toggleHomeTableHeaders} />
-      ) : hoverActivePanelTabs == "1" ? (
+      ) : hoverActivePanelTabs === 1 ? (
         <Message />
-      ) : hoverActivePanelTabs == "2" ? (
+      ) : hoverActivePanelTabs === 2 ? (
         <Setting />
       ) : (
         ""
