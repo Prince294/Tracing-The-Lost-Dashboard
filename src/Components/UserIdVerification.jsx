@@ -23,6 +23,7 @@ const TableTr = (props) => {
 };
 
 export default function UserIdVerification(props) {
+  const [verificaionUsername, setVerificaionUsername] = useState("");
   const [data, setData] = useState([]);
   const [totalPendingTableRows, setTotalPendingTableRows] = useState(0);
   const [totalSolvedTableRows, setTotalSolvedTableRows] = useState(0);
@@ -81,6 +82,21 @@ export default function UserIdVerification(props) {
       });
   };
 
+  const verifiyTheUser = async (username) => {
+    await http
+      .post(apisPath?.admin?.verifyUser, {
+        session: localStorage.getItem("session"),
+        username: username,
+      })
+      .then((res) => {
+        console.log(res);
+        getUsersData();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <>
       <h2>
@@ -90,7 +106,7 @@ export default function UserIdVerification(props) {
       <div className="homeMenu">
         <ul>
           {[
-            { no_of_msgs: data.length, name: "Request" },
+            { no_of_msgs: data?.length, name: "Request" },
             { no_of_msgs: totalPendingTableRows, name: "Pending" },
             { no_of_msgs: totalSolvedTableRows, name: "Solved" },
             { no_of_msgs: totalRejectedTableRows, name: "Rejected" },
@@ -149,34 +165,49 @@ export default function UserIdVerification(props) {
             ? data.map((item, key) => {
                 return (
                   <tr key={key}>
-                    <td style={{ minWidth: "5vw" }}>{item.id}</td>
-                    <td style={{ minWidth: "10vw" }}>{item.username}</td>
-                    <td style={{ minWidth: "12vw" }}>{item.email}</td>
-                    <td style={{ minWidth: "5vw" }}>{item.mobile}</td>
-                    <td style={{ minWidth: "7vw" }}>{item.dob}</td>
-                    <td style={{ minWidth: "10vw" }}>{item.name}</td>
-                    <td style={{ minWidth: "5vw" }}>{item.gender}</td>
+                    <td style={{ minWidth: "5vw" }}>{item?.id}</td>
+                    <td style={{ minWidth: "10vw" }}>{item?.username}</td>
+                    <td style={{ minWidth: "12vw" }}>{item?.email}</td>
+                    <td style={{ minWidth: "5vw" }}>{item?.mobile}</td>
+                    <td style={{ minWidth: "7vw" }}>{item?.dob}</td>
+                    <td style={{ minWidth: "10vw" }}>{item?.name}</td>
+                    <td style={{ minWidth: "5vw" }}>{item?.gender}</td>
                     <td style={{ minWidth: "6vw" }}>
-                      {item.kyc_status ? (
-                        <GppBadRoundedIcon color="error" />
+                      {!item?.kyc_status ||
+                      item?.verified_user_status !== "solved" ? (
+                        <GppBadRoundedIcon
+                          style={{
+                            color:
+                              !item?.kyc_status &&
+                              item?.verified_user_status !== "solved"
+                                ? "red"
+                                : "orange",
+                          }}
+                        />
                       ) : (
                         <GppGoodRoundedIcon color="success" />
                       )}
                     </td>
                     <td style={{ minWidth: "6vw" }}>
                       <img
-                        src={item.verified_user_id_proof}
+                        src={item?.verified_user_id_proof}
                         alt="User"
                         className="verified_user_id_proof"
                         onClick={() => {
-                          setImageUrl(item.verified_user_id_proof);
+                          setImageUrl(item?.verified_user_id_proof);
                           setImageView(true);
                         }}
                       />
                     </td>
                     {item?.verified_user_status === "pending" ? (
                       <td style={{ minWidth: "6vw" }}>
-                        <button>Verify</button>
+                        <button
+                          onClick={() => {
+                            verifiyTheUser(item?.username);
+                          }}
+                        >
+                          Verify
+                        </button>
                       </td>
                     ) : (
                       <td></td>
@@ -194,34 +225,49 @@ export default function UserIdVerification(props) {
                 ) {
                   return (
                     <tr key={key}>
-                      <td style={{ minWidth: "5vw" }}>{item.id}</td>
-                      <td style={{ minWidth: "10vw" }}>{item.username}</td>
-                      <td style={{ minWidth: "12vw" }}>{item.email}</td>
-                      <td style={{ minWidth: "5vw" }}>{item.mobile}</td>
-                      <td style={{ minWidth: "7vw" }}>{item.dob}</td>
-                      <td style={{ minWidth: "10vw" }}>{item.name}</td>
-                      <td style={{ minWidth: "5vw" }}>{item.gender}</td>
+                      <td style={{ minWidth: "5vw" }}>{item?.id}</td>
+                      <td style={{ minWidth: "10vw" }}>{item?.username}</td>
+                      <td style={{ minWidth: "12vw" }}>{item?.email}</td>
+                      <td style={{ minWidth: "5vw" }}>{item?.mobile}</td>
+                      <td style={{ minWidth: "7vw" }}>{item?.dob}</td>
+                      <td style={{ minWidth: "10vw" }}>{item?.name}</td>
+                      <td style={{ minWidth: "5vw" }}>{item?.gender}</td>
                       <td style={{ minWidth: "6vw" }}>
-                        {item.kyc_status ? (
-                          <GppBadRoundedIcon color="error" />
+                        {!item?.kyc_status ||
+                        item?.verified_user_status !== "solved" ? (
+                          <GppBadRoundedIcon
+                            style={{
+                              color:
+                                !item?.kyc_status &&
+                                item?.verified_user_status !== "solved"
+                                  ? "red"
+                                  : "orange",
+                            }}
+                          />
                         ) : (
                           <GppGoodRoundedIcon color="success" />
                         )}
                       </td>
                       <td style={{ minWidth: "6vw" }}>
                         <img
-                          src={item.verified_user_id_proof}
+                          src={item?.verified_user_id_proof}
                           alt="User"
                           className="verified_user_id_proof"
                           onClick={() => {
-                            setImageUrl(item.verified_user_id_proof);
+                            setImageUrl(item?.verified_user_id_proof);
                             setImageView(true);
                           }}
                         />
                       </td>
                       {item?.verified_user_status === "pending" && (
                         <td style={{ minWidth: "6vw" }}>
-                          <button>Verify</button>
+                          <button
+                            onClick={() => {
+                              verifiyTheUser(item?.username);
+                            }}
+                          >
+                            Verify
+                          </button>
                         </td>
                       )}
                     </tr>
