@@ -2,6 +2,7 @@ import React from "react";
 import "../ComponentCss/LeftPanel.css";
 import HomeIcon from "@mui/icons-material/Home";
 import MessageIcon from "@mui/icons-material/Message";
+import VerifiedIcon from "@mui/icons-material/Verified";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SchoolIcon from "@mui/icons-material/School";
@@ -19,6 +20,8 @@ const PanelItems = (props) => {
         <SettingsIcon className="itemLogo" />
       ) : props.logo === "LogoutIcon" ? (
         <LogoutIcon className="itemLogo" />
+      ) : props.logo === "VerifiedIcon" ? (
+        <VerifiedIcon className="itemLogo" />
       ) : (
         ""
       )}
@@ -38,8 +41,8 @@ export default function LeftPanel() {
       <ul>
         {[
           { logo: "HomeIcon", name: "Home" },
-          { logo: "MessageIcon", name: "Dr. Verification" },
-          { logo: "SettingsIcon", name: "Block Doctor" },
+          { logo: "VerifiedIcon", name: "User ID Verification" },
+          { logo: "SettingsIcon", name: "Setting" },
           { logo: "LogoutIcon", name: "Logout" },
         ].map((item) => {
           return (

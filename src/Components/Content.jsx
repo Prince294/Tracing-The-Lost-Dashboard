@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../ComponentCss/Content.css";
 import Home from "./Home";
-import Message from "./Message";
+import UserIdVerification from "./UserIdVerification";
 import Setting from "./Setting";
 import MenuIcon from "@mui/icons-material/Menu";
 import Paper from "@mui/material/Paper";
@@ -40,30 +40,12 @@ export default function Content() {
     listItems.forEach((item) => {
       item.addEventListener("click", addingClass);
     });
-
-    //Home List on click event
-    var homeListItems = document.querySelectorAll(".homeMenu ul li");
-    var line = document.querySelectorAll(".homeMenu ul li .line");
-    function mouseOverHomeListItems() {
-      line.forEach((item) => {
-        item.classList.remove("after");
-      });
-      let linee = this.querySelector(".line");
-      linee.classList.add("after");
-      setToggleHomeTableHeaders(
-        Array.from(this.parentNode.children).indexOf(this)
-      );
-    }
-    homeListItems.forEach((item) => {
-      item.addEventListener("click", mouseOverHomeListItems);
-    });
   }, []);
 
   var leftPanel = document.querySelector(".leftPanel");
   var content = document.querySelector(".content");
   const handleMenuExpand = () => {
     setToggleMenuBtn(false);
-
     leftPanel.style.width = "5.5em";
     content.style.width = "calc(100vw - 5.5em)";
     content.style.left = "5.5em";
@@ -71,7 +53,6 @@ export default function Content() {
 
   const handleMenuCollapse = () => {
     setToggleMenuBtn(true);
-
     leftPanel.style.width = "20vw";
     content.style.width = "calc(100vw - 20vw)";
     content.style.left = "20vw";
@@ -113,9 +94,9 @@ export default function Content() {
       </nav>
       <hr className="partitionHr" />
       {hoverActivePanelTabs === 0 ? (
-        <Home toggleHomeTableHeaders={toggleHomeTableHeaders} />
+        <Home />
       ) : hoverActivePanelTabs === 1 ? (
-        <Message />
+        <UserIdVerification toggleHomeTableHeaders={toggleHomeTableHeaders} />
       ) : hoverActivePanelTabs === 2 ? (
         <Setting />
       ) : (

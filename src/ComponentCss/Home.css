@@ -30,7 +30,7 @@ h2 sub {
 .homeMenu ul li .after {
   position: absolute;
   width: 10em;
-  height: 0.3em;
+  height: 3px;
   background-color: var(--panelColor);
   transform: translate(-0.4em, 2.3em);
 }
@@ -87,4 +87,17 @@ h2 sub {
 }
 .dropdownNameSelection:hover {
   background-color: rgb(221, 221, 221);
+}
+
+.verified_user_id_proof {
+  height: 40px;
+  width: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.popup_verification_image {
+  height: 80vh;
+  object-fit: contain;
 }
