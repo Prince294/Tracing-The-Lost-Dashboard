@@ -33,7 +33,7 @@ export default function LeftPanel() {
       <div className="companyLogo">
         {/* <img src={ABESIT} className="itemLogo" /> */}
         <SchoolIcon className="itemLogo" />
-        <h1>Upcloud Support</h1>
+        <h1>TTL - Support</h1>
       </div>
       <ul>
         {[

@@ -10,44 +10,23 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 import ABESIT from "../Images/abesit.png";
-import Login from "./Login";
 import { useNavigate } from "react-router-dom";
 
 export default function Content() {
   const navigate = useNavigate();
 
-  const [toggleMenuBtn, setToggleMenuBtn] = useState(1);
+  const [toggleMenuBtn, setToggleMenuBtn] = useState(true);
   const [toggleHomeTableHeaders, setToggleHomeTableHeaders] = useState(0);
   const [hoverActivePanelTabs, setHoverActivePanelTabs] = useState(0);
 
   useEffect(() => {
-    var hamBurger = document.querySelector(".MenuBtn");
-    var leftPanel = document.querySelector(".leftPanel");
-    var leftPanelUl = document.querySelector(".leftPanel ul");
-    var content = document.querySelector(".content");
-
-    hamBurger.addEventListener("click", () => {
-      if (toggleMenuBtn === 1) {
-        leftPanel.style.width = "5.7vw";
-        content.style.width = "calc(100vw - 5.7vw)";
-        content.style.left = "5.7vw";
-
-        setToggleMenuBtn(0);
-      } else {
-        leftPanel.style.width = "20vw";
-        content.style.width = "calc(100vw - 20vw)";
-        content.style.left = "20vw";
-        setToggleMenuBtn(1);
-      }
-    });
-
     //Adding a class on click listItems
     var listItems = document.querySelectorAll(".hoverItems");
     function addingClass() {
       if (Array.from(this.parentNode.children).indexOf(this) === 3) {
         localStorage.removeItem("session");
         setHoverActivePanelTabs(0);
-        return navigate("/");
+        return navigate("/login");
       } else {
         listItems.forEach((item) => {
           item.classList.remove("aciveItem");
@@ -58,12 +37,11 @@ export default function Content() {
         );
       }
     }
-
     listItems.forEach((item) => {
       item.addEventListener("click", addingClass);
     });
 
-    //Home List Hover Underline
+    //Home List on click event
     var homeListItems = document.querySelectorAll(".homeMenu ul li");
     var line = document.querySelectorAll(".homeMenu ul li .line");
     function mouseOverHomeListItems() {
@@ -76,35 +54,38 @@ export default function Content() {
         Array.from(this.parentNode.children).indexOf(this)
       );
     }
-
     homeListItems.forEach((item) => {
       item.addEventListener("click", mouseOverHomeListItems);
     });
+  }, []);
 
-    //Dropdown Teachers Name
-    let dropDownUl = document.querySelectorAll(".dropdownNameSelection");
+  var leftPanel = document.querySelector(".leftPanel");
+  var content = document.querySelector(".content");
+  const handleMenuExpand = () => {
+    setToggleMenuBtn(false);
 
-    for (let dropUl of dropDownUl) {
-      dropUl.addEventListener("click", () => {
-        let DropDownDiv = dropUl.querySelector("div");
-        if (DropDownDiv.style.display === "none") {
-          DropDownDiv.style.display = "block";
-        } else {
-          DropDownDiv.style.display = "none";
-        }
-      });
-    }
-  });
+    leftPanel.style.width = "5.5em";
+    content.style.width = "calc(100vw - 5.5em)";
+    content.style.left = "5.5em";
+  };
+
+  const handleMenuCollapse = () => {
+    setToggleMenuBtn(true);
+
+    leftPanel.style.width = "20vw";
+    content.style.width = "calc(100vw - 20vw)";
+    content.style.left = "20vw";
+  };
 
   return (
     <div className="content">
       <nav className="contentNav">
-        {toggleMenuBtn === 1 ? (
-          <IconButton className="MenuBtn">
+        {toggleMenuBtn ? (
+          <IconButton className="MenuBtn" onClick={handleMenuExpand}>
             <MenuIcon className="MenuIcon" />
           </IconButton>
         ) : (
-          <IconButton className="MenuBtn">
+          <IconButton className="MenuBtn" onClick={handleMenuCollapse}>
             <CloseIcon className="MenuIcon" />
           </IconButton>
         )}

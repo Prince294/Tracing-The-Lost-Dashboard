@@ -1,24 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../ComponentCss/Home.css";
-
-const DropDown = () => {
-  return (
-    <select name="dropdownNameSelection" className="dropdownNameSelection">
-      <option value="">None</option>
-      <option value="gunjansaxena">Gunjan Saxena</option>
-      <option value="skarya">S.K. Arya</option>
-      <option value="anjaliDubey">Anjali Dubey</option>
-      <option value="sanjeevkumar">Sanjeev Kumar</option>
-    </select>
-  );
-};
 
 const HomeMenuListItems = (props) => {
   return (
     <li>
-      <div
-        className={`line ${props.name === "Complaints" ? "after" : ""}`}
-      ></div>
+      <div className={`line ${props.index === 0 ? "after" : ""}`}></div>
       <div className="homeListContent">
         <h4>{props.name}</h4>
         <div className="no_of_msgs">{props.no_of_msgs}</div>
@@ -32,71 +18,15 @@ const TableTr = (props) => {
 };
 
 export default function Home(props) {
-  const [descriptionCharLimit, setDescriptionCharLimit] = useState(70);
-  const mapTableItemType = ["", "pending", "inprocess", "solved", "rejected"];
-  const data = [
-    {
-      type: "pending",
-      id: "101",
-      title: "pending",
-      user: "Prince Kumar",
-      dept: "Admin",
-      assigned: "Anjali Saxena",
-      desc: "This is a Demo Description to check whether all thing works or not. this is another line of checking the description field at the chrome screen.",
-      date: "28 June 2022",
-    },
-    {
-      type: "inProcess",
-      id: "102",
-      title: "inProcess",
-      user: "Shivam Rawat",
-      dept: "Registrar",
-      assigned: "Krishna Dubey",
-      desc: "This is a Demo Description to check whether all thing works or not.",
-      date: "28 June 2022",
-    },
-    {
-      type: "solved",
-      id: "103",
-      title: "solved",
-      user: "Akash Kasana",
-      dept: "Library",
-      assigned: "Komal Rani",
-      desc: "This is a Demo Description to check whether all thing works or not.",
-      date: "28 June 2022",
-    },
-    {
-      type: "rejected",
-      id: "104",
-      title: "rejected",
-      user: "Ishu Mittal",
-      dept: "Admin",
-      assigned: "Avinash Tiwari",
-      desc: "This is a Demo Description to check whether all thing works or not.",
-      date: "28 June 2022",
-    },
-    {
-      type: "pending",
-      id: "105",
-      title: "pending",
-      user: "Ishwar Bana",
-      dept: "Library",
-      assigned: "Sanjeev Kumar",
-      desc: "This is a Demo Description to check whether all thing works or not.",
-      date: "28 June 2022",
-    },
-  ];
+  const mapTableItemType = ["", "pending", "solved", "rejected"];
 
   var totalPendingTableRows = 0;
-  var totalInProcessTableRows = 0;
   var totalSolvedTableRows = 0;
   var totalRejectedTableRows = 0;
 
   for (let i = 0; i < data.length; i++) {
     if (data[i].type.toLowerCase() === "pending") {
       totalPendingTableRows++;
-    } else if (data[i].type.toLowerCase() === "inprocess") {
-      totalInProcessTableRows++;
     } else if (data[i].type.toLowerCase() === "solved") {
       totalSolvedTableRows++;
     } else {
@@ -107,23 +37,23 @@ export default function Home(props) {
   return (
     <>
       <h2>
-        Complain Management Dashboard<sub>Complaints for last 30days</sub>
+        Tracing The Lost Admin Panel<sub>request for last 30days</sub>
       </h2>
       <hr className="partitionHr" />
       <div className="homeMenu">
         <ul>
           {[
-            { no_of_msgs: data.length, name: "Complaints" },
+            { no_of_msgs: data.length, name: "Request" },
             { no_of_msgs: totalPendingTableRows, name: "Pending" },
-            { no_of_msgs: totalInProcessTableRows, name: "In Process" },
             { no_of_msgs: totalSolvedTableRows, name: "Solved" },
             { no_of_msgs: totalRejectedTableRows, name: "Rejected" },
-          ].map((item) => {
+          ].map((item, index) => {
             return (
               <HomeMenuListItems
                 key={item.name}
-                name={item.name}
+                index={index}
                 no_of_msgs={item.no_of_msgs}
+                name={item.name}
               />
             );
           })}
@@ -132,42 +62,71 @@ export default function Home(props) {
       <hr className="partitionHr" />
       <table className="homeTable">
         <thead>
-          <tr>
-            {[
-              "Id",
-              "Title",
-              "Complaint User",
-              "Department",
-              "Assigned To",
-              "Description",
-              "Date Created",
-              "Assign Faculty",
-            ].map((item) => {
-              return <TableTr key={item} name={item} />;
-            })}
-          </tr>
+          {props.toggleHomeTableHeaders === 0 ||
+          props.toggleHomeTableHeaders === 1 ? (
+            <tr>
+              {console.log(props.toggleHomeTableHeaders)}
+
+              {[
+                "Id",
+                "Username",
+                "Email",
+                "Mobile",
+                "Name",
+                "DOB",
+                "Gender",
+                "KYC Status",
+                "User ID Proof",
+                "",
+              ].map((item) => {
+                return <TableTr key={item} name={item} />;
+              })}
+            </tr>
+          ) : (
+            <tr>
+              {[
+                "Id",
+                "Username",
+                "Email",
+                "Mobile",
+                "Name",
+                "DOB",
+                "Gender",
+                "KYC Status",
+                "User ID Proof",
+              ].map((item) => {
+                return <TableTr key={item} name={item} />;
+              })}
+            </tr>
+          )}
         </thead>
         <tbody>
-          {props.toggleHomeTableHeaders === "0"
+          {props.toggleHomeTableHeaders === 0
             ? data.map((item, key) => {
                 return (
                   <tr key={key}>
-                    <td style={{ width: "5vw" }}>{item.id}</td>
-                    <td style={{ width: "10vw" }}>{item.title}</td>
-                    <td style={{ width: "7vw" }}>{item.user}</td>
-                    <td style={{ width: "5vw" }}>{item.dept}</td>
-                    <td style={{ width: "6vw" }}>{item.assigned}</td>
-                    <td style={{ width: "15vw" }}>
-                      {item.desc.length > descriptionCharLimit
-                        ? item.desc.slice(0, descriptionCharLimit) + "..."
-                        : item.desc}
+                    <td style={{ minWidth: "5vw" }}>{item.id}</td>
+                    <td style={{ minWidth: "10vw" }}>{item.username}</td>
+                    <td style={{ minWidth: "12vw" }}>{item.email}</td>
+                    <td style={{ minWidth: "5vw" }}>{item.mobile}</td>
+                    <td style={{ minWidth: "7vw" }}>{item.dob}</td>
+                    <td style={{ minWidth: "10vw" }}>{item.name}</td>
+                    <td style={{ minWidth: "5vw" }}>{item.gender}</td>
+                    <td style={{ minWidth: "6vw" }}>{item.kyc_status}</td>
+                    <td style={{ minWidth: "6vw" }}>
+                      {item.verified_user_id_proof}
                     </td>
-                    <td style={{ width: "6vw" }}>{item.date}</td>
-                    <td style={{ width: "6vw" }}>{<DropDown />}</td>
+                    {item?.verified_user_status === "pending" ? (
+                      <td style={{ minWidth: "6vw" }}>
+                        <button>Verify</button>
+                      </td>
+                    ) : (
+                      <td></td>
+                    )}
                   </tr>
                 );
               })
-            : props.toggleHomeTableHeaders !== "0"
+            : props.toggleHomeTableHeaders !== 0
             ? data.map((item, key) => {
                 if (
                   item.type.toLowerCase() ===
@@ -177,18 +136,24 @@ export default function Home(props) {
                 ) {
                   return (
                     <tr key={key}>
-                      <td style={{ width: "5vw" }}>{item.id}</td>
-                      <td style={{ width: "10vw" }}>{item.title}</td>
-                      <td style={{ width: "7vw" }}>{item.user}</td>
-                      <td style={{ width: "5vw" }}>{item.dept}</td>
-                      <td style={{ width: "6vw" }}>{item.assigned}</td>
-                      <td style={{ width: "15vw" }}>
-                        {item.desc.length > 70
-                          ? item.desc.slice(0, 70) + "..."
-                          : item.desc}
+                      <td style={{ minWidth: "5vw" }}>{item.id}</td>
+                      <td style={{ minWidth: "10vw" }}>{item.username}</td>
+                      <td style={{ minWidth: "12vw" }}>{item.email}</td>
+                      <td style={{ minWidth: "5vw" }}>{item.mobile}</td>
+                      <td style={{ minWidth: "7vw" }}>{item.dob}</td>
+                      <td style={{ minWidth: "10vw" }}>{item.name}</td>
+                      <td style={{ minWidth: "5vw" }}>{item.gender}</td>
+                      <td style={{ minWidth: "6vw" }}>{item.kyc_status}</td>
+                      <td style={{ minWidth: "6vw" }}>
+                        {item.verified_user_id_proof}
                       </td>
-                      <td style={{ width: "6vw" }}>{item.date}</td>
-                      <td style={{ width: "6vw" }}>{<DropDown />}</td>
+                      {item?.verified_user_status === "pending" ? (
+                        <td style={{ minWidth: "6vw" }}>
+                          <button>Verify</button>
+                        </td>
+                      ) : (
+                        <td></td>
+                      )}
                     </tr>
                   );
                 }
@@ -199,3 +164,32 @@ export default function Home(props) {
     </>
   );
 }
+
+const data = [
+  {
+    type: "pending",
+    id: "101",
+    username: "prince",
+    name: "Prince Kumar",
+    email: "Admin@gmail.com",
+    gender: "Male",
+    dob: "23/07/2002",
+    mobile: 9876543211,
+    kyc_status: "pending",
+    user_id_proof: "null",
+    verified_user_status: "pending",
+  },
+  {
+    type: "Solved",
+    id: "101",
+    username: "reflex",
+    name: "Neha Sharma",
+    email: "Admin123@yopmail.com",
+    gender: "Female",
+    dob: "15/10/2002",
+    mobile: 98765246211,
+    kyc_status: "solved",
+    user_id_proof: "null",
+    verified_user_status: "solved",
+  },
+];

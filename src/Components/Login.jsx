@@ -10,25 +10,25 @@ function Login() {
   const [email_username, setEmail_username] = useState("");
   const [password, setPassword] = useState("");
 
-  useEffect(() => {
-    ValidateLogin();
-  }, []);
+  // useEffect(() => {
+  //   ValidateLogin();
+  // }, []);
 
-  const ValidateLogin = async () => {
-    if (localStorage.getItem("session")) {
-      await http
-        .post(apisPath?.admin?.validateLogin, {
-          session: localStorage.getItem("session"),
-        })
-        .then((res) => {
-          return navigate("/home");
-        })
-        .catch((err) => {
-          console.log(err);
-          // setErrMessage(err?.response?.data?.message);
-        });
-    }
-  };
+  // const ValidateLogin = async () => {
+  //   if (localStorage.getItem("session")) {
+  //     await http
+  //       .post(apisPath?.admin?.validateLogin, {
+  //         session: localStorage.getItem("session"),
+  //       })
+  //       .then((res) => {
+  //         return navigate("/home");
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   }
+  //   return navigate("/login");
+  // };
 
   const loginHandler = async (e) => {
     e.preventDefault();
