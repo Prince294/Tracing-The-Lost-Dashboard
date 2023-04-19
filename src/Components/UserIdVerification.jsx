@@ -27,11 +27,24 @@ const TableTr = (props) => {
 };
 
 export default function UserIdVerification(props) {
-  const [verificaionUsername, setVerificaionUsername] = useState("");
   const [data, setData] = useState([]);
   const [totalPendingTableRows, setTotalPendingTableRows] = useState(0);
   const [totalSolvedTableRows, setTotalSolvedTableRows] = useState(0);
   const [totalRejectedTableRows, setTotalRejectedTableRows] = useState(0);
+
+  const [TABLE_HEAD, setTABLE_HEAD] = useState([
+    "Id",
+    "Username",
+    "Email",
+    "Mobile",
+    "Name",
+    "DOB",
+    "Gender",
+    "KYC Status",
+    "User ID Proof",
+    "",
+  ]);
+
   const [toggleHomeTableHeaders, setToggleHomeTableHeaders] = useState(0);
   const mapTableItemType = ["", "pending", "solved", "rejected"];
   const [imageView, setImageView] = useState(false);
@@ -75,6 +88,20 @@ export default function UserIdVerification(props) {
     }
   }, [data]);
 
+  useEffect(() => {
+    let TableHead = TABLE_HEAD;
+    if (toggleHomeTableHeaders === 0 || toggleHomeTableHeaders === 1) {
+      if (totalPendingTableRows > 0 && TABLE_HEAD?.length === 9) {
+        TableHead?.push("");
+      } else if (totalPendingTableRows === 0 && TABLE_HEAD?.length === 10) {
+        TableHead?.pop();
+      }
+    } else if (TABLE_HEAD?.length === 10) {
+      TableHead?.pop();
+    }
+    setTABLE_HEAD(TableHead);
+  }, [toggleHomeTableHeaders]);
+
   const getUsersData = async () => {
     await http
       .post(apisPath?.admin?.usersData, {
@@ -91,6 +118,21 @@ export default function UserIdVerification(props) {
   const verifiyTheUser = async (username) => {
     await http
       .post(apisPath?.admin?.verifyUser, {
+        session: localStorage.getItem("session"),
+        username: username,
+      })
+      .then((res) => {
+        console.log(res);
+        getUsersData();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const cancelTheUser = async (username) => {
+    await http
+      .post(apisPath?.admin?.cancelUser, {
         session: localStorage.getItem("session"),
         username: username,
       })
@@ -133,34 +175,13 @@ export default function UserIdVerification(props) {
         <thead>
           {toggleHomeTableHeaders === 0 || toggleHomeTableHeaders === 1 ? (
             <tr>
-              {[
-                "Id",
-                "Username",
-                "Email",
-                "Mobile",
-                "Name",
-                "DOB",
-                "Gender",
-                "KYC Status",
-                "User ID Proof",
-                "",
-              ].map((item) => {
+              {TABLE_HEAD?.map((item) => {
                 return <TableTr key={item} name={item} />;
               })}
             </tr>
           ) : (
             <tr>
-              {[
-                "Id",
-                "Username",
-                "Email",
-                "Mobile",
-                "Name",
-                "DOB",
-                "Gender",
-                "KYC Status",
-                "User ID Proof",
-              ].map((item) => {
+              {TABLE_HEAD?.map((item) => {
                 return <TableTr key={item} name={item} />;
               })}
             </tr>
@@ -171,14 +192,14 @@ export default function UserIdVerification(props) {
             ? data.map((item, key) => {
                 return (
                   <tr key={key}>
-                    <td style={{ minWidth: "5vw" }}>{item?.id}</td>
-                    <td style={{ minWidth: "10vw" }}>{item?.username}</td>
-                    <td style={{ minWidth: "12vw" }}>{item?.email}</td>
-                    <td style={{ minWidth: "5vw" }}>{item?.mobile}</td>
-                    <td style={{ minWidth: "7vw" }}>{item?.dob}</td>
-                    <td style={{ minWidth: "10vw" }}>{item?.name}</td>
-                    <td style={{ minWidth: "5vw" }}>{item?.gender}</td>
-                    <td style={{ minWidth: "6vw" }}>
+                    <td>{item?.id}</td>
+                    <td>{item?.username}</td>
+                    <td>{item?.email}</td>
+                    <td>{item?.mobile}</td>
+                    <td>{item?.name}</td>
+                    <td>{item?.dob}</td>
+                    <td>{item?.gender}</td>
+                    <td>
                       {!item?.kyc_status ||
                       item?.verified_user_status !== "solved" ? (
                         <GppBadRoundedIcon
@@ -194,7 +215,7 @@ export default function UserIdVerification(props) {
                         <GppGoodRoundedIcon color="success" />
                       )}
                     </td>
-                    <td style={{ minWidth: "6vw" }}>
+                    <td>
                       <img
                         src={item?.verified_user_id_proof}
                         alt="User"
@@ -206,28 +227,30 @@ export default function UserIdVerification(props) {
                       />
                     </td>
                     {item?.verified_user_status === "pending" ? (
-                      <td style={{ minWidth: "6vw", display: "flex" }}>
-                        <IconButton size="small">
-                          <CheckCircleIcon
-                            color="success"
-                            onClick={() => {
-                              verifiyTheUser(item?.username);
-                            }}
-                          />
+                      <td>
+                        <IconButton
+                          size="small"
+                          onClick={() => {
+                            verifiyTheUser(item?.username);
+                          }}
+                        >
+                          <Tooltip title="Verify" arrow>
+                            <CheckCircleIcon color="success" />
+                          </Tooltip>
                         </IconButton>
-                        <IconButton size="small">
+                        <IconButton
+                          size="small"
+                          onClick={() => {
+                            cancelTheUser(item?.username);
+                          }}
+                        >
                           <Tooltip title="Cancel" arrow>
-                            <CancelRoundedIcon
-                              color="error"
-                              onClick={() => {
-                                verifiyTheUser(item?.username);
-                              }}
-                            />
+                            <CancelRoundedIcon color="error" />
                           </Tooltip>
                         </IconButton>
                       </td>
                     ) : (
-                      <td></td>
+                      totalPendingTableRows > 0 && <td></td>
                     )}
                   </tr>
                 );
@@ -242,14 +265,14 @@ export default function UserIdVerification(props) {
                 ) {
                   return (
                     <tr key={key}>
-                      <td style={{ minWidth: "5vw" }}>{item?.id}</td>
-                      <td style={{ minWidth: "10vw" }}>{item?.username}</td>
-                      <td style={{ minWidth: "12vw" }}>{item?.email}</td>
-                      <td style={{ minWidth: "5vw" }}>{item?.mobile}</td>
-                      <td style={{ minWidth: "7vw" }}>{item?.dob}</td>
-                      <td style={{ minWidth: "10vw" }}>{item?.name}</td>
-                      <td style={{ minWidth: "5vw" }}>{item?.gender}</td>
-                      <td style={{ minWidth: "6vw" }}>
+                      <td>{item?.id}</td>
+                      <td>{item?.username}</td>
+                      <td>{item?.email}</td>
+                      <td>{item?.mobile}</td>
+                      <td>{item?.dob}</td>
+                      <td>{item?.name}</td>
+                      <td>{item?.gender}</td>
+                      <td>
                         {!item?.kyc_status ||
                         item?.verified_user_status !== "solved" ? (
                           <GppBadRoundedIcon
@@ -265,7 +288,7 @@ export default function UserIdVerification(props) {
                           <GppGoodRoundedIcon color="success" />
                         )}
                       </td>
-                      <td style={{ minWidth: "6vw" }}>
+                      <td>
                         <img
                           src={item?.verified_user_id_proof}
                           alt="User"
@@ -277,14 +300,27 @@ export default function UserIdVerification(props) {
                         />
                       </td>
                       {item?.verified_user_status === "pending" && (
-                        <td style={{ minWidth: "6vw" }}>
-                          <button
+                        <td>
+                          <IconButton
+                            size="small"
                             onClick={() => {
                               verifiyTheUser(item?.username);
                             }}
                           >
-                            Verify
-                          </button>
+                            <Tooltip title="Verify" arrow>
+                              <CheckCircleIcon color="success" />
+                            </Tooltip>
+                          </IconButton>
+                          <IconButton
+                            size="small"
+                            onClick={() => {
+                              cancelTheUser(item?.username);
+                            }}
+                          >
+                            <Tooltip title="Cancel" arrow>
+                              <CancelRoundedIcon color="error" />
+                            </Tooltip>
+                          </IconButton>
                         </td>
                       )}
                     </tr>

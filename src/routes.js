@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Main from "./Components/Main";
 import Login from "./Components/Login";
-import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  useNavigate,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 import http from "./Components/Services/utility";
 import { apisPath } from "./Components/Utils/path";
 import Home from "./Components/Home";
@@ -17,13 +23,17 @@ export default function Router() {
   }, []);
 
   const validateLogin = async () => {
+    const pathName = window?.location?.pathname;
+    // console.log(pathName);
     if (localStorage.getItem("session")) {
       await http
         .post(apisPath?.admin?.validateLogin, {
           session: localStorage.getItem("session"),
         })
         .then((res) => {
-          return navigate("/dashboard");
+          if (pathName === "/login" || !pathName?.startsWith("/dashboard/")) {
+            return navigate("/dashboard");
+          }
         })
         .catch((err) => {
           return navigate("/login");

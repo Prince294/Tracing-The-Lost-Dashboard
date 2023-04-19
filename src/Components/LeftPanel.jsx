@@ -13,7 +13,7 @@ const PanelItems = (props) => {
     <Link
       to={props?.url}
       onClick={() => {
-        this?.classList.add("activeItem");
+        this?.firstElementChild?.classList.add("activeItem");
         props?.handleClick(props?.index);
       }}
     >
@@ -76,7 +76,7 @@ export default function LeftPanel(props) {
         ].map((item, index) => {
           return (
             <PanelItems
-              key={item?.logo}
+              key={index}
               logo={item?.logo}
               name={item?.name}
               url={item?.url}
