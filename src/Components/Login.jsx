@@ -10,26 +10,6 @@ function Login() {
   const [email_username, setEmail_username] = useState("");
   const [password, setPassword] = useState("");
 
-  // useEffect(() => {
-  //   ValidateLogin();
-  // }, []);
-
-  // const ValidateLogin = async () => {
-  //   if (localStorage.getItem("session")) {
-  //     await http
-  //       .post(apisPath?.admin?.validateLogin, {
-  //         session: localStorage.getItem("session"),
-  //       })
-  //       .then((res) => {
-  //         return navigate("/home");
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   }
-  //   return navigate("/login");
-  // };
-
   const loginHandler = async (e) => {
     e.preventDefault();
 
@@ -42,7 +22,7 @@ function Login() {
         .then((res) => {
           console.log(res?.data);
           localStorage.setItem("session", res?.data?.session_id);
-          navigate("/home");
+          navigate("/dashboard/home");
         })
         .catch((err) => {
           console.log(err);
@@ -57,7 +37,7 @@ function Login() {
         .then((res) => {
           console.log(res?.data);
           localStorage.setItem("session", res?.data?.session_id);
-          navigate("/home");
+          navigate("/dashboard/home");
         })
         .catch((err) => {
           console.log(err);

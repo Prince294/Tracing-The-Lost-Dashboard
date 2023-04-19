@@ -29,14 +29,19 @@
 .leftPanel .companyLogo h1 {
   font-size: 1em;
 }
-
 .leftPanel ul {
+  width: 100%;
+}
+
+.leftPanel ul a {
+  text-decoration: none;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
   transition: all 0.6s ease-in-out;
+  color: white;
 }
 
 .leftPanel ul li {
@@ -52,7 +57,7 @@
 }
 
 .leftPanel ul li:hover,
-.leftPanel ul .aciveItem {
+.leftPanel ul .activeItem {
   background-color: var(--panelLIColor);
   border-top-left-radius: 2em;
   border-bottom-left-radius: 2em;
@@ -61,7 +66,7 @@
 }
 
 .leftPanel ul li:hover::after,
-.leftPanel ul .aciveItem::after {
+.leftPanel ul .activeItem::after {
   content: "";
   position: absolute;
   right: 0;
@@ -75,7 +80,7 @@
 }
 
 .leftPanel ul li:hover::before,
-.leftPanel ul .aciveItem::before {
+.leftPanel ul .activeItem::before {
   content: "";
   position: absolute;
   right: 0;

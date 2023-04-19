@@ -69,6 +69,7 @@ h2 sub {
 
 .homeTable td,
 .homeTable th {
+  height: 100%;
   border: 1px solid var(--hrColor);
   text-align: center;
   padding: 8px;

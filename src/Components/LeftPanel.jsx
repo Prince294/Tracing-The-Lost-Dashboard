@@ -6,50 +6,86 @@ import VerifiedIcon from "@mui/icons-material/Verified";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SchoolIcon from "@mui/icons-material/School";
+import { Link, useNavigate } from "react-router-dom";
 
 const PanelItems = (props) => {
   return (
-    <li
-      className={`hoverItems ${props.logo === "HomeIcon" ? "aciveItem" : ""}`}
+    <Link
+      to={props?.url}
+      onClick={() => {
+        this?.classList.add("activeItem");
+        props?.handleClick(props?.index);
+      }}
     >
-      {props.logo === "HomeIcon" ? (
-        <HomeIcon className="itemLogo" />
-      ) : props.logo === "MessageIcon" ? (
-        <MessageIcon className="itemLogo" />
-      ) : props.logo === "SettingsIcon" ? (
-        <SettingsIcon className="itemLogo" />
-      ) : props.logo === "LogoutIcon" ? (
-        <LogoutIcon className="itemLogo" />
-      ) : props.logo === "VerifiedIcon" ? (
-        <VerifiedIcon className="itemLogo" />
-      ) : (
-        ""
-      )}
-      <h1 className="leftPanelHeading">{props.name}</h1>
-    </li>
+      <li
+        className={`hoverItems ${
+          props.logo === "HomeIcon" ? "activeItem" : ""
+        }`}
+      >
+        {props.logo}
+        <h1 className="leftPanelHeading">{props.name}</h1>
+      </li>
+    </Link>
   );
 };
 
-export default function LeftPanel() {
+export default function LeftPanel(props) {
+  const navigate = useNavigate();
+
+  const handleClick = (index) => {
+    var listItems = document.querySelectorAll(".hoverItems");
+    if (index === 3) {
+      localStorage.removeItem("session");
+      return navigate("/login");
+    } else {
+      listItems.forEach((item) => {
+        if (item.classList.contains("activeItem"))
+          item.classList.remove("activeItem");
+      });
+    }
+  };
+
   return (
-    <div className="leftPanel">
+    <>
       <div className="companyLogo">
-        {/* <img src={ABESIT} className="itemLogo" /> */}
         <SchoolIcon className="itemLogo" />
         <h1>TTL - Support</h1>
       </div>
       <ul>
         {[
-          { logo: "HomeIcon", name: "Home" },
-          { logo: "VerifiedIcon", name: "User ID Verification" },
-          { logo: "SettingsIcon", name: "Setting" },
-          { logo: "LogoutIcon", name: "Logout" },
-        ].map((item) => {
+          {
+            logo: <HomeIcon className="itemLogo" />,
+            name: "Home",
+            url: "home",
+          },
+          {
+            logo: <VerifiedIcon className="itemLogo" />,
+            name: "User ID Verification",
+            url: "verification",
+          },
+          {
+            logo: <SettingsIcon className="itemLogo" />,
+            name: "Setting",
+            url: "setting",
+          },
+          {
+            logo: <LogoutIcon className="itemLogo" />,
+            name: "Logout",
+            url: "logout",
+          },
+        ].map((item, index) => {
           return (
-            <PanelItems key={item.logo} logo={item.logo} name={item.name} />
+            <PanelItems
+              key={item?.logo}
+              logo={item?.logo}
+              name={item?.name}
+              url={item?.url}
+              index={index}
+              handleClick={handleClick}
+            />
           );
         })}
       </ul>
-    </div>
+    </>
   );
 }

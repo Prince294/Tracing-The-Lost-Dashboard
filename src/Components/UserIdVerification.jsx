@@ -5,6 +5,10 @@ import { apisPath } from "./Utils/path";
 import UserIdVerificationPopup from "./UserIdVerificationPopup";
 import GppBadRoundedIcon from "@mui/icons-material/GppBadRounded";
 import GppGoodRoundedIcon from "@mui/icons-material/GppGoodRounded";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 
 const HomeMenuListItems = (props) => {
   return (
@@ -56,7 +60,9 @@ export default function UserIdVerification(props) {
 
   useEffect(() => {
     if (data?.length > 0) {
-      console.log(data);
+      setTotalPendingTableRows(0);
+      setTotalSolvedTableRows(0);
+      setTotalRejectedTableRows(0);
       for (let i = 0; i < data.length; i++) {
         if (data[i].type.toLowerCase() === "pending") {
           setTotalPendingTableRows((prev) => prev + 1);
@@ -200,14 +206,25 @@ export default function UserIdVerification(props) {
                       />
                     </td>
                     {item?.verified_user_status === "pending" ? (
-                      <td style={{ minWidth: "6vw" }}>
-                        <button
-                          onClick={() => {
-                            verifiyTheUser(item?.username);
-                          }}
-                        >
-                          Verify
-                        </button>
+                      <td style={{ minWidth: "6vw", display: "flex" }}>
+                        <IconButton size="small">
+                          <CheckCircleIcon
+                            color="success"
+                            onClick={() => {
+                              verifiyTheUser(item?.username);
+                            }}
+                          />
+                        </IconButton>
+                        <IconButton size="small">
+                          <Tooltip title="Cancel" arrow>
+                            <CancelRoundedIcon
+                              color="error"
+                              onClick={() => {
+                                verifiyTheUser(item?.username);
+                              }}
+                            />
+                          </Tooltip>
+                        </IconButton>
                       </td>
                     ) : (
                       <td></td>
