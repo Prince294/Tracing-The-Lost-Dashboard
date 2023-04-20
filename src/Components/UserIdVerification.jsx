@@ -56,7 +56,6 @@ export default function UserIdVerification(props) {
     var homeListItems = document.querySelectorAll(".homeMenu ul li");
     var line = document.querySelectorAll(".homeMenu ul li .line");
     function mouseOverHomeListItems() {
-      console.log("clicked");
       line.forEach((item) => {
         item.classList.remove("after");
       });
@@ -73,33 +72,20 @@ export default function UserIdVerification(props) {
 
   useEffect(() => {
     if (data?.length > 0) {
-      setTotalPendingTableRows(0);
-      setTotalSolvedTableRows(0);
-      setTotalRejectedTableRows(0);
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].type.toLowerCase() === "pending") {
-          setTotalPendingTableRows((prev) => prev + 1);
-        } else if (data[i].type.toLowerCase() === "solved") {
-          setTotalSolvedTableRows((prev) => prev + 1);
-        } else {
-          setTotalRejectedTableRows((prev) => prev + 1);
+      let TableHead = TABLE_HEAD;
+      if (toggleHomeTableHeaders === 0 || toggleHomeTableHeaders === 1) {
+        if (totalPendingTableRows > 0 && TABLE_HEAD?.length === 9) {
+          TableHead?.push("");
+        } else if (totalPendingTableRows === 0 && TABLE_HEAD?.length === 10) {
+          TableHead?.pop();
         }
-      }
-    }
-  }, [data]);
+      } else if (TABLE_HEAD?.length === 10) {
+        console.log("test");
 
-  useEffect(() => {
-    let TableHead = TABLE_HEAD;
-    if (toggleHomeTableHeaders === 0 || toggleHomeTableHeaders === 1) {
-      if (totalPendingTableRows > 0 && TABLE_HEAD?.length === 9) {
-        TableHead?.push("");
-      } else if (totalPendingTableRows === 0 && TABLE_HEAD?.length === 10) {
         TableHead?.pop();
       }
-    } else if (TABLE_HEAD?.length === 10) {
-      TableHead?.pop();
+      setTABLE_HEAD(TableHead);
     }
-    setTABLE_HEAD(TableHead);
   }, [toggleHomeTableHeaders]);
 
   const getUsersData = async () => {
@@ -108,7 +94,25 @@ export default function UserIdVerification(props) {
         session: localStorage.getItem("session"),
       })
       .then((res) => {
-        setData(res?.data?.data);
+        setData(res?.data?.data?.data);
+        setTotalPendingTableRows(res?.data?.data?.total_pending);
+        setTotalRejectedTableRows(res?.data?.data?.total_rejected);
+        setTotalSolvedTableRows(res?.data?.data?.total_solved);
+
+        let TableHead = TABLE_HEAD;
+        if (toggleHomeTableHeaders === 0 || toggleHomeTableHeaders === 1) {
+          if (res?.data?.data?.total_pending > 0 && TABLE_HEAD?.length === 9) {
+            TableHead?.push("");
+          } else if (
+            res?.data?.data?.total_pending === 0 &&
+            TABLE_HEAD?.length === 10
+          ) {
+            TableHead?.pop();
+          }
+        } else if (TABLE_HEAD?.length === 10) {
+          TableHead?.pop();
+        }
+        setTABLE_HEAD(TableHead);
       })
       .catch((err) => {
         console.log(err);
@@ -158,7 +162,7 @@ export default function UserIdVerification(props) {
             { no_of_msgs: totalPendingTableRows, name: "Pending" },
             { no_of_msgs: totalSolvedTableRows, name: "Solved" },
             { no_of_msgs: totalRejectedTableRows, name: "Rejected" },
-          ].map((item, index) => {
+          ]?.map((item, index) => {
             return (
               <HomeMenuListItems
                 key={item.name}
@@ -189,7 +193,7 @@ export default function UserIdVerification(props) {
         </thead>
         <tbody>
           {toggleHomeTableHeaders === 0
-            ? data.map((item, key) => {
+            ? data?.map((item, key) => {
                 return (
                   <tr key={key}>
                     <td>{item?.id}</td>
