@@ -1,6 +1,6 @@
 import React from "react";
 import LeftPanel from "./LeftPanel";
-import ABESIT from "../Images/abesit.png";
+import Logo from "../Images/logo.png";
 import Navbar from "./Navbar";
 import { Outlet } from "react-router-dom";
 import "../ComponentCss/Content.css";
@@ -8,7 +8,7 @@ import "../ComponentCss/Content.css";
 export default function Main() {
   return (
     <>
-      <img src={ABESIT} className="CompanyLogo" />
+      <img src={Logo} className="watermarkLogo" />
       <div className="leftPanel">
         <LeftPanel />
       </div>

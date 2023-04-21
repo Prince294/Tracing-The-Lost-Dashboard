@@ -80,16 +80,6 @@ h2 sub {
   color: var(--panelLIColor);
 }
 
-.dropdownNameSelection {
-  user-select: none;
-  padding: 0.4em 0.8em;
-  cursor: pointer;
-  font-weight: 700;
-}
-.dropdownNameSelection:hover {
-  background-color: rgb(221, 221, 221);
-}
-
 .verified_user_id_proof {
   height: 40px;
   width: 40px;
@@ -101,4 +91,47 @@ h2 sub {
 .popup_verification_image {
   height: 80vh;
   object-fit: contain;
+}
+
+/* cards styling  */
+.Home .cards {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 2em;
+  padding: 0 2rem;
+}
+
+.Home .cards .card {
+  padding: 4px 10px;
+  background-color: var(--panelLIColor);
+  box-shadow: 2px 4px 8px 0.1px var(--boxShadow);
+  transition: all 0.1s ease-in-out;
+  display: grid;
+  grid-template-columns: 80% 20%;
+  min-height: 7rem;
+  border-radius: 6px;
+}
+
+.Home .cards .card:hover {
+  box-shadow: 2px 6px 10px 0.1px var(--boxShadow);
+}
+
+.Home .cards .card .cardContent {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.Home .cards .card .cardContent:first-child {
+  font-size: 15px;
+}
+.Home .cards .card .cardContent .card__count {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.Home .cards .card .image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

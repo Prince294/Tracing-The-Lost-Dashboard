@@ -10,8 +10,8 @@ import {
 } from "react-router-dom";
 import http from "./Components/Services/utility";
 import { apisPath } from "./Components/Utils/path";
-import Home from "./Components/Home";
-import UserIdVerification from "./Components/UserIdVerification";
+import Home from "./Components/Home/Home";
+import UserIdVerification from "./Components/UserIdVerification/UserIdVerification";
 import Setting from "./Components/Setting";
 
 export default function Router() {

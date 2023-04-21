@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "../ComponentCss/Home.css";
-import http from "./Services/utility";
-import { apisPath } from "./Utils/path";
+import "../../ComponentCss/Home.css";
+import http from "../Services/utility";
+import { apisPath } from "../Utils/path";
 import UserIdVerificationPopup from "./UserIdVerificationPopup";
 import GppBadRoundedIcon from "@mui/icons-material/GppBadRounded";
 import GppGoodRoundedIcon from "@mui/icons-material/GppGoodRounded";
@@ -44,6 +44,17 @@ export default function UserIdVerification(props) {
     "User ID Proof",
     "",
   ]);
+  const TABLE_HEAD1 = [
+    "Id",
+    "Username",
+    "Email",
+    "Mobile",
+    "Name",
+    "DOB",
+    "Gender",
+    "KYC Status",
+    "User ID Proof",
+  ];
 
   const [toggleHomeTableHeaders, setToggleHomeTableHeaders] = useState(0);
   const mapTableItemType = ["", "pending", "solved", "rejected"];
@@ -70,24 +81,6 @@ export default function UserIdVerification(props) {
     });
   }, []);
 
-  useEffect(() => {
-    if (data?.length > 0) {
-      let TableHead = TABLE_HEAD;
-      if (toggleHomeTableHeaders === 0 || toggleHomeTableHeaders === 1) {
-        if (totalPendingTableRows > 0 && TABLE_HEAD?.length === 9) {
-          TableHead?.push("");
-        } else if (totalPendingTableRows === 0 && TABLE_HEAD?.length === 10) {
-          TableHead?.pop();
-        }
-      } else if (TABLE_HEAD?.length === 10) {
-        console.log("test");
-
-        TableHead?.pop();
-      }
-      setTABLE_HEAD(TableHead);
-    }
-  }, [toggleHomeTableHeaders]);
-
   const getUsersData = async () => {
     await http
       .post(apisPath?.admin?.usersData, {
@@ -98,21 +91,6 @@ export default function UserIdVerification(props) {
         setTotalPendingTableRows(res?.data?.data?.total_pending);
         setTotalRejectedTableRows(res?.data?.data?.total_rejected);
         setTotalSolvedTableRows(res?.data?.data?.total_solved);
-
-        let TableHead = TABLE_HEAD;
-        if (toggleHomeTableHeaders === 0 || toggleHomeTableHeaders === 1) {
-          if (res?.data?.data?.total_pending > 0 && TABLE_HEAD?.length === 9) {
-            TableHead?.push("");
-          } else if (
-            res?.data?.data?.total_pending === 0 &&
-            TABLE_HEAD?.length === 10
-          ) {
-            TableHead?.pop();
-          }
-        } else if (TABLE_HEAD?.length === 10) {
-          TableHead?.pop();
-        }
-        setTABLE_HEAD(TableHead);
       })
       .catch((err) => {
         console.log(err);
@@ -177,7 +155,8 @@ export default function UserIdVerification(props) {
       <hr className="partitionHr" />
       <table className="homeTable">
         <thead>
-          {toggleHomeTableHeaders === 0 || toggleHomeTableHeaders === 1 ? (
+          {(toggleHomeTableHeaders === 0 || toggleHomeTableHeaders === 1) &&
+          totalPendingTableRows > 0 ? (
             <tr>
               {TABLE_HEAD?.map((item) => {
                 return <TableTr key={item} name={item} />;
@@ -185,7 +164,7 @@ export default function UserIdVerification(props) {
             </tr>
           ) : (
             <tr>
-              {TABLE_HEAD?.map((item) => {
+              {TABLE_HEAD1?.map((item) => {
                 return <TableTr key={item} name={item} />;
               })}
             </tr>

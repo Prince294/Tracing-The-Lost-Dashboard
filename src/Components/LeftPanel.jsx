@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../ComponentCss/LeftPanel.css";
 import HomeIcon from "@mui/icons-material/Home";
 import MessageIcon from "@mui/icons-material/Message";
@@ -12,8 +12,7 @@ const PanelItems = (props) => {
   return (
     <Link
       to={props?.url}
-      onClick={() => {
-        this?.firstElementChild?.classList.add("activeItem");
+      onClick={(e) => {
         props?.handleClick(props?.index);
       }}
     >
@@ -32,6 +31,18 @@ const PanelItems = (props) => {
 export default function LeftPanel(props) {
   const navigate = useNavigate();
 
+  useEffect(() => {
+    var url = window?.location?.pathname;
+    var listItems = document.querySelectorAll(".hoverItems");
+    if (url?.includes("home")) {
+      listItems[0].classList.add("activeItem");
+    } else if (url?.includes("verification")) {
+      listItems[1].classList.add("activeItem");
+    } else if (url?.includes("setting")) {
+      listItems[2].classList.add("activeItem");
+    }
+  }, []);
+
   const handleClick = (index) => {
     var listItems = document.querySelectorAll(".hoverItems");
     if (index === 3) {
@@ -42,6 +53,7 @@ export default function LeftPanel(props) {
         if (item.classList.contains("activeItem"))
           item.classList.remove("activeItem");
       });
+      listItems[index].classList.add("activeItem");
     }
   };
 

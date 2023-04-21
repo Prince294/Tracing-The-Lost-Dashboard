@@ -1,43 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
-import ABESIT from "../Images/abesit.png";
+import Logo from "../Images/logo.png";
 
 export default function Navbar() {
   const [toggleMenuBtn, setToggleMenuBtn] = useState(true);
 
-  var leftPanel = document.querySelector(".leftPanel");
-  var content = document.querySelector(".content");
-
-  const handleMenuExpand = () => {
-    leftPanel.style.width = "5.5em";
-    content.style.width = "calc(100vw - 5.5em)";
-    content.style.left = "5.5em";
-  };
-
-  const handleMenuCollapse = () => {
-    leftPanel.style.width = "20vw";
-    content.style.width = "calc(100vw - 20vw)";
-    content.style.left = "20vw";
-  };
+  useEffect(() => {
+    var leftPanel = document.querySelector(".leftPanel");
+    var content = document.querySelector(".content");
+    if (!toggleMenuBtn) {
+      leftPanel.style.width = "5.5em";
+      content.style.width = "calc(100vw - 5.5em)";
+      content.style.left = "5.5em";
+    } else {
+      leftPanel.style.width = "20vw";
+      content.style.width = "calc(100vw - 20vw)";
+      content.style.left = "20vw";
+    }
+  }, [toggleMenuBtn]);
 
   return (
     <nav className="contentNav">
       {toggleMenuBtn ? (
-        <IconButton className="MenuBtn" onClick={handleMenuExpand}>
+        <IconButton className="MenuBtn" onClick={() => setToggleMenuBtn(false)}>
           <MenuIcon className="MenuIcon" />
         </IconButton>
       ) : (
-        <IconButton className="MenuBtn" onClick={handleMenuCollapse}>
+        <IconButton className="MenuBtn" onClick={() => setToggleMenuBtn(true)}>
           <CloseIcon className="MenuIcon" />
         </IconButton>
       )}
 
-      <img src={ABESIT} className="logo" />
+      <img src={Logo} className="logo" />
       <Paper
         component="form"
         sx={{

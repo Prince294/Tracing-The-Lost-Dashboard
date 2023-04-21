@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
+
 :root {
   --panelColor: rgb(0, 119, 255);
   --tableBg: rgba(0, 119, 255, 0.6);
@@ -7,16 +9,19 @@
   --fontColor: black;
   --hrColor: rgb(60, 60, 60);
   --homeListHover: rgb(234, 234, 234);
+  --boxShadow: rgb(173, 173, 173);
 }
 
-.CompanyLogo {
+.watermarkLogo {
   position: absolute;
   opacity: 0.16;
   top: 50vh;
   left: 50vw;
   transform: translate(-40%, -50%);
+  width: 20rem;
 }
 
 body {
   user-select: none;
+  font-family: "Poppins", sans-serif;
 }
