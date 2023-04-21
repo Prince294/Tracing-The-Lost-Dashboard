@@ -80,6 +80,10 @@ h2 sub {
   color: var(--panelLIColor);
 }
 
+.no_data_found {
+  width: 50%;
+}
+
 .verified_user_id_proof {
   height: 40px;
   width: 40px;
@@ -114,7 +118,7 @@ h2 sub {
 }
 
 .Home .cards .card:hover {
-  box-shadow: 2px 6px 10px 0.1px var(--boxShadow);
+  box-shadow: 2px 8px 12px 0.1px var(--boxShadow);
 }
 
 .Home .cards .card .cardContent {

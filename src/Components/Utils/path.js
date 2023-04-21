@@ -14,5 +14,6 @@ export const apisPath = {
     usersData: "adm/user_verification_details",
     verifyUser: "adm/verify/user",
     cancelUser: "adm/cancel/user",
+    dashboardData: "adm/dashboard/data",
   },
 };
