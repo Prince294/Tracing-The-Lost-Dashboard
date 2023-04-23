@@ -11,13 +11,14 @@
   flex-direction: column;
   row-gap: 2.5em;
   overflow: hidden;
+  z-index: -1;
 }
 
 .leftPanel .companyLogo {
   display: flex;
   align-items: center;
   margin: 2em 0 0 0.8em;
-  width: 18vw;
+  white-space: nowrap;
 }
 
 .leftPanel .companyLogo .itemLogo {
@@ -28,14 +29,19 @@
 .leftPanel .companyLogo h1 {
   font-size: 1em;
 }
-
 .leftPanel ul {
+  width: 100%;
+}
+
+.leftPanel ul a {
+  text-decoration: none;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 19vw;
+  width: 100%;
   transition: all 0.6s ease-in-out;
+  color: white;
 }
 
 .leftPanel ul li {
@@ -47,10 +53,11 @@
   padding: 16px 0 16px 16px;
   cursor: pointer;
   margin: 0.4em;
+  white-space: nowrap;
 }
 
 .leftPanel ul li:hover,
-.leftPanel ul .aciveItem {
+.leftPanel ul .activeItem {
   background-color: var(--panelLIColor);
   border-top-left-radius: 2em;
   border-bottom-left-radius: 2em;
@@ -59,7 +66,7 @@
 }
 
 .leftPanel ul li:hover::after,
-.leftPanel ul .aciveItem::after {
+.leftPanel ul .activeItem::after {
   content: "";
   position: absolute;
   right: 0;
@@ -73,7 +80,7 @@
 }
 
 .leftPanel ul li:hover::before,
-.leftPanel ul .aciveItem::before {
+.leftPanel ul .activeItem::before {
   content: "";
   position: absolute;
   right: 0;

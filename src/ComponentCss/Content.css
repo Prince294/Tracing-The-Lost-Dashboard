@@ -1,12 +1,13 @@
 .content {
   position: absolute;
-  width: 80vw;
+  max-width: 80vw;
   height: 100vh;
   left: 20vw;
   padding: 1em;
   transition: all 0.6s ease-in-out;
   z-index: 1;
   /* background-color: white; */
+  overflow-x: scroll;
 }
 
 .contentNav {
@@ -17,7 +18,7 @@
 }
 
 .contentNav .logo {
-  width: 4em;
+  width: 5em;
 }
 
 .contentNav .MenuIcon {
