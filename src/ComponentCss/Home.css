@@ -30,7 +30,7 @@ h2 sub {
 .homeMenu ul li .after {
   position: absolute;
   width: 10em;
-  height: 0.3em;
+  height: 3px;
   background-color: var(--panelColor);
   transform: translate(-0.4em, 2.3em);
 }
@@ -69,6 +69,7 @@ h2 sub {
 
 .homeTable td,
 .homeTable th {
+  height: 100%;
   border: 1px solid var(--hrColor);
   text-align: center;
   padding: 8px;
@@ -79,12 +80,62 @@ h2 sub {
   color: var(--panelLIColor);
 }
 
-.dropdownNameSelection {
-  user-select: none;
-  padding: 0.4em 0.8em;
+.no_data_found {
+  width: 50%;
+}
+
+.verified_user_id_proof {
+  height: 40px;
+  width: 40px;
+  object-fit: cover;
+  border-radius: 50%;
   cursor: pointer;
+}
+
+.popup_verification_image {
+  height: 80vh;
+  object-fit: contain;
+}
+
+/* cards styling  */
+.Home .cards {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 2em;
+  padding: 0 2rem;
+}
+
+.Home .cards .card {
+  padding: 4px 10px;
+  background-color: var(--panelLIColor);
+  box-shadow: 2px 4px 8px 0.1px var(--boxShadow);
+  transition: all 0.1s ease-in-out;
+  display: grid;
+  grid-template-columns: 80% 20%;
+  min-height: 7rem;
+  border-radius: 6px;
+}
+
+.Home .cards .card:hover {
+  box-shadow: 2px 8px 12px 0.1px var(--boxShadow);
+}
+
+.Home .cards .card .cardContent {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.Home .cards .card .cardContent:first-child {
+  font-size: 15px;
+}
+.Home .cards .card .cardContent .card__count {
+  font-size: 20px;
   font-weight: 700;
 }
-.dropdownNameSelection:hover {
-  background-color: rgb(221, 221, 221);
+
+.Home .cards .card .image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
